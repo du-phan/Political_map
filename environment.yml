@@ -1,0 +1,6 @@
+name: django-env
+dependencies:
+- django
+- pillow
+- psycopg2
+- anaconda
