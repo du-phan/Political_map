@@ -26,30 +26,6 @@
           var dataurl_bdv = '{% url "talence" %}';
           var dataurl_iris = '{% url "talence" %}'; 
           
-
-          /*
-          function defaultStyle(feature) {
-            return {
-              color: "#228b22",
-              weight: 3,
-              opacity: 1,
-              fillOpacity: 0.2,
-              fillColor: "#228b22"
-            };
-          };
-
-          
-          function defaultStyle_bdv(feature) { 
-            return {
-              color: "#ff6d8d",
-              weight: 3,
-              opacity: 1,
-              fillOpacity: 0.4,
-              fillColor: "#ff6d8d"
-            };
-            
-          }; */
-
           function highlightFeature(e) {
               var layer = e.target;
 
@@ -64,27 +40,7 @@
               if (!L.Browser.ie && !L.Browser.opera) {
                   layer.bringToFront();
               }
-
-
-              //info.update(layer.feature.properties);
           }
-
-          /*
-          function highlightFeature_bdv(e) {
-              var layer = e.target;
-
-              layer.setStyle({
-                  weight: 5,
-                  color: '#ff6d8d',
-                  dashArray: '',
-                  fillOpacity: 0.7
-              });
-
-              if (!L.Browser.ie && !L.Browser.opera) {
-                  layer.bringToFront();
-              }
-
-           }*/
 
           function resetHighlight(e) {
             // var layer = e.target;
@@ -111,16 +67,6 @@
 
           var iris_talence ; 
 
-
-          // function test(feature,layer,x){
-          //   function onEachFeature() {
-          //     layer.on({
-          //         mouseover: highlightFeature, 
-          //         mouseout: resetHighlight,
-          //         click: zoomToFeature,
-          //     }); 
-          //   }; 
-          // };
           function test(feature,layer,x){
             //console.log(x);
             //onEachFeature(feature, layer);
@@ -169,50 +115,10 @@
                   : 'Hover over a zone');
           };
 
-
-          /*
-          info.update_bdv = function (props) {
-              this._div.innerHTML = '<h4>Bureau de vote de Talence</h4>' +  (props ?
-                  '<b>' + props.fid + '</b>'
-                  : 'Hover over a zone');
-          };*/
-
-
           info.addTo(map); 
-
 
           var iris ;
           var bdv;
-          
-          
-          /*
-          $.getJSON(dataurl_iris, function (data) {
-              iris = data;
-
-              L.choropleth(iris, {
-                valueProperty: 'cadres', // which property in the features to use
-                scale: ['#fff','#228b22'], // chroma.js scale - include as many as you like
-                steps: 5, // number of breaks or steps in range
-                mode: 'q', // q for quantile, e for equidistant, k for k-means
-                style: {
-                    color: '#fff', // border color
-                    weight: 3,
-                    opacity: 1,
-                    fillOpacity: 0.3
-                }
-              }).addTo(map);
-
-          }); 
-
-          
-          $.getJSON(dataurl_bdv, function (data) {
-                bdv = data;
-                bdv = L.geoJson(bdv, {
-                    style: defaultStyle_bdv,
-                    onEachFeature: onEachFeature
-                })//.addTo(map);
-
-          }); */ 
 
           $.ajax({
             async: false,
@@ -220,95 +126,14 @@
             dataType:"json", 
             success: function(data){
               iris = data;
-              //iris = L.geoJson(data, {
-              //    style: defaultStyle,
-              //    onEachFeature: onEachFeature
-              //})//.addTo(map);
             }
           });
 
-
-          /*
-          $.ajax({
-            async: false,
-            url : dataurl_bdv,
-            dataType:"json", 
-            success: function(data){
-              bdv = data;
-              bdv = L.geoJson(data, {
-                  style: defaultStyle_bdv,
-                  onEachFeature: onEachFeature_bdv
-              })//.addTo(map);
-            }
-          });*/
-          
-          //console.log(iris)
-          /*
-          var talence_population = L.choropleth(iris, {
-            valueProperty: 'population',
-            scale: ['#fff','#228b22'],
-            steps: 3,
-            mode: 'q',
-            style: {
-              color: '#fff',
-              weight: 3,
-              opacity: 0.7, 
-              fillOpacity: 0.5
-            },
-            onEachFeature: onEachFeature
-          }).addTo(map)
-
-          talence_chomeur = L.choropleth(iris, {
-            valueProperty: 'chomeurs',
-            scale: ['#fff','#228b22'],
-            steps: 3,
-            mode: 'q',
-            style: {
-              color: '#fff',
-              weight: 3,
-              opacity: 0.7, 
-              fillOpacity: 0.5
-            },
-            onEachFeature: onEachFeature
-          })
-
-          var overlay_map = { 
-            "Population" : talence_population,
-            "Chomeurs" : talence_chomeur
-            //"bureau de vote" : bdv
-          };
-
-
-          var test = Object.keys(iris.features[0].properties)[5];
-          console.log(iris.features[0].properties[test]) 
-
-          //L.control.layers(overlay_map, null).addTo(map);
-      
-      //console.log(iris);*/
-      
       var variable_list = ["population", "agriculteu","artisans","cadres","prof_inter","employes","ouvriers","chomeurs","retraites","proprietai","immigrant"]; 
       var overlay_list = {};
       var variable;
       for (var i = 0; i < variable_list.length; i++)
       {
-        
-        // var info = L.control();
-
-        // info.onAdd = function (map) {
-        //     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-        //     this.update();
-        //     return this._div;
-        // };
-
-        // // method that we will use to update the control based on feature properties passed
-        // info.update = function (props) {
-        //     this._div.innerHTML = '<h4>Bureau de vote de Talence</h4>' +  (props ?
-        //         '<b>' + props.nom_iris + '</b><br/>' + '%'
-        //         : 'Hover over a zone');
-        // };
-
-        // info.addTo(map);
-
         variable = L.choropleth(iris, {
             valueProperty: variable_list[i],
             scale: ['#fff','#228b22'],
@@ -321,13 +146,9 @@
               fillOpacity: 0.5
             },
             onEachFeature: function(feature,layer){
-              //onEachFeature(feature,layer);
-              //console.log(variable_list[i]); 
               test(feature, layer,variable_list[i]);
             }
           });
-
-        //console.log(variable)
         overlay_list[variable_list[i]] = variable;
       }
 
